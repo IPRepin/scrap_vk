@@ -39,6 +39,31 @@ def get_wall_posts(group_name):
         with open(f"{group_name}/exist_posts_{group_name}.txt", "w", encoding="utf-8") as file:
             for item in id_posts_lst:
                 file.write(str(item) + "\n")
+
+        #извлекаем данные из постов
+        for post in posts:
+
+            post_id = post["id"]
+            print(f'Отправляем пост с ID {post_id}')
+
+            try:
+                if "attachments" in post:
+                    post = post["attachments"]
+                    #извлекаем фото
+                    if post[0]["type"] == "photo":
+                        if len(post) == 1:
+                            post_foto = post[0]["photo"]["photo_1280"]
+                            print(post_foto)
+                        else:
+                            for post_item_photo in post:
+                                post_foto = post_item_photo["photo"]["photo_1280"]
+                                print(post_foto)
+
+
+            except Exception:
+                print(f"Что-то не так с постом ID {post_id}!")
+
+
     else:
         print("Файл с ID постов найден, начинаем выборку свежих постов!")
 
